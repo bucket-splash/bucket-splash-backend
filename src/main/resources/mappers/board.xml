@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.finale.dao.BoardDAO">
+
+	<!-- 게시글 전체 조회 -->
+	<select id="selectBoard" resultType="board">
+		select no, title, writer, content, regtime, answer
+		  from vue_board 
+		 order by no desc
+	</select>
+	
+	<!-- 게시글 상세 조회 -->
+	<select id="selectBoardByNo" resultType="board">
+		select no, title, writer, content, regtime, answer
+		  from vue_board 
+		 where no = #{no}
+	</select>
+
+	<!-- 게시글 등록 -->
+	<insert id="insertBoard" parameterType="board">
+		insert into vue_board(
+			title, writer, content
+		) values (
+			#{title}, #{writer}, #{content}
+		)
+	</insert>
+	
+	<!-- 게시글 수정 -->
+	<update id="updateBoard" parameterType="board">
+		update vue_board 
+		   set title = #{title}, 
+		   	   writer = #{writer}, 
+		   	   content = #{content},
+		   	   answer = #{answer}
+		 where no = #{no}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		delete 
+		  from vue_board 
+		 where no = #{no}
+	</delete>
+
+</mapper>
+
