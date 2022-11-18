@@ -34,3 +34,6 @@ build/
 
 ### ssl ###
 DigiCertGlobalRootCA.crt.pem
+
+### application properties ###
+application.properties

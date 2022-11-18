@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `bucketsplash` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `bucketsplash`;
 -- MySQL dump 10.13  Distrib 8.0.30, for macos12 (x86_64)
 --
 -- Host: bucket-splash.mysql.database.azure.com    Database: bucketsplash
@@ -264,16 +262,17 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL,
-  `team_id` int NOT NULL,
+  `team_id` int DEFAULT NULL,
   `nickname` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `bio` varchar(255) NOT NULL,
-  `profile_image` varchar(255) NOT NULL,
+  `profile_image` varchar(255) DEFAULT NULL,
+  `token` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`user_id`,`email`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `FK_TEAMS_TO_USERS_1` (`team_id`),
   CONSTRAINT `FK_TEAMS_TO_USERS_1` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,6 +281,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'hi6724@gmail.com',NULL,'훈나무','secret','프론트엔드 개발자입니다.','https://i.picsum.photos/id/16/2500/1667.jpg?hmac=uAkZwYc5phCRNFTrV_prJ_0rP0EdwJaZ4ctje2bY7aE',NULL),(2,'dasliebeich7@gmail.com',NULL,'롱롱','secret','백엔드 개발자입니다.','https://i.picsum.photos/id/49/1280/792.jpg?hmac=NnUJy0O9-pXHLmY2loqVs2pJmgw9xzuixgYOk4ALCXU',NULL),(3,'jjanggu@gmail.com',NULL,'짱구','secret','짱구입니다.','https://i.picsum.photos/id/54/3264/2176.jpg?hmac=blh020fMeJ5Ru0p-fmXUaOAeYnxpOPHnhJojpzPLN3g',NULL),(4,'suji@gmail.com',NULL,'수지','secret','수지입니다.','https://i.picsum.photos/id/65/4912/3264.jpg?hmac=uq0IxYtPIqRKinGruj45KcPPzxDjQvErcxyS1tn7bG0','eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjY4NzU2NTg2MjUzLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njg3NTc0ODYsInN1YiI6InJlZnJlc2gtdG9rZW4iLCJlbWFpbCI6InN1amlAZ21haWwuY29tIn0.7WXvzjrBDk9xDNk_UcNBaz838fzwLZW58q_zrJ6TMmk'),(5,'rick@gmail.com',NULL,'릭','secret','릭입니다.','https://i.picsum.photos/id/71/5000/3333.jpg?hmac=wBjyqoAke0uv6bTtbbIby9s-VTQ52gIkI-QVXWS3W0I',NULL),(6,'morty@gmail.com',NULL,'모티','secret','모티입니다.','https://i.picsum.photos/id/76/4912/3264.jpg?hmac=VkFcSa2Rbv0R0ndYnz_FAmw02ON1pPVjuF_iVKbiiV8','eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjY4NzU2NTk3ODMxLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njg3NTc0OTcsInN1YiI6InJlZnJlc2gtdG9rZW4iLCJlbWFpbCI6Im1vcnR5QGdtYWlsLmNvbSJ9.pv3V3Wljevmd2SmJskEuvZJzZiyLGk5P1rqLg-XEr-I');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -330,7 +330,7 @@ CREATE TABLE `vue_user` (
   `token` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`user_no`),
   UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -339,7 +339,7 @@ CREATE TABLE `vue_user` (
 
 LOCK TABLES `vue_user` WRITE;
 /*!40000 ALTER TABLE `vue_user` DISABLE KEYS */;
-INSERT INTO `vue_user` VALUES (1,'ssafy','싸피','ssafy','2022-11-11 01:38:45',''),(2,'user','유저','user','2022-11-11 01:38:45','');
+INSERT INTO `vue_user` VALUES (1,'ssafy','싸피','ssafy','2022-11-11 01:38:45','eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjY4NzUzNzY2NDExLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njg3NTQ2NjYsInN1YiI6InJlZnJlc2gtdG9rZW4iLCJ1c2VyX2lkIjoic3NhZnkifQ.zU2KPmZ_YtTVd8wTydxew7Qr6bQK2gdao8yyN5aELN8'),(2,'user','유저','user','2022-11-11 01:38:45',''),(3,'hihi','hihi','hihi','2022-11-18 03:58:22',NULL);
 /*!40000 ALTER TABLE `vue_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -352,4 +352,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-18 12:50:56
+-- Dump completed on 2022-11-18 16:40:58
