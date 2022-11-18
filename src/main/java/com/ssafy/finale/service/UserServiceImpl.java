@@ -45,9 +45,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void saveRefreshToken(String email, String refreshToken) throws Exception {
+	public void saveRefreshToken(String user_id, String refreshToken) throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("email", email);
+		map.put("user_id", user_id);
 		map.put("token", refreshToken);
 		userDao.saveRefreshToken(map);
 	}
@@ -63,6 +63,11 @@ public class UserServiceImpl implements UserService {
 		map.put("email", email);
 		map.put("token", null);
 		userDao.deleteRefreshToken(map);
+	}
+
+	@Override
+	public Boolean updateUser(User user) throws Exception {
+		return userDao.updateUser(user);
 	}
 
 }

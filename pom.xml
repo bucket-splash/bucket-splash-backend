@@ -10,6 +10,7 @@
 	<groupId>com.ssafy</groupId>
 	<artifactId>finale</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>finale</name>
 	<description>Final Project in SSAFY</description>
 	<properties>
@@ -17,6 +18,13 @@
 		<spring-cloud-azure.version>4.4.1</spring-cloud-azure.version>
 	</properties>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jdbc</artifactId>
