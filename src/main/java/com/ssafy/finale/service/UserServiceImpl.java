@@ -34,38 +34,34 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User loginUser(User user) throws Exception {
-		if (user.getUser_id() == null || user.getPwd() == null)
+		if (user.getEmail() == null || user.getPassword() == null)
 			return null;
-//		return sqlSession.getMapper(UserDao.class).loginUser(user.getUser_id(), user.getPwd());
-		return userDao.loginUser(user.getUser_id(), user.getPwd());
+		return userDao.loginUser(user.getEmail(), user.getPassword());
 	}
 
 	@Override
-	public User getUser(String user_id) throws Exception {
-		return userDao.getUser(user_id);
+	public User getUser(String email) throws Exception {
+		return userDao.getUser(email);
 	}
 
 	@Override
-	public void saveRefreshToken(String user_id, String refreshToken) throws Exception {
+	public void saveRefreshToken(String email, String refreshToken) throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("user_id", user_id);
+		map.put("email", email);
 		map.put("token", refreshToken);
-//		sqlSession.getMapper(UserDao.class).saveRefreshToken(map);
 		userDao.saveRefreshToken(map);
 	}
 
 	@Override
-	public Object getRefreshToken(String user_id) throws Exception {
-//		return sqlSession.getMapper(UserDao.class).getRefreshToken(userid);
-		return userDao.getRefreshToken(user_id);
+	public Object getRefreshToken(String email) throws Exception {
+		return userDao.getRefreshToken(email);
 	}
 
 	@Override
-	public void deleRefreshToken(String user_id) throws Exception {
+	public void deleRefreshToken(String email) throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("user_id", user_id);
+		map.put("email", email);
 		map.put("token", null);
-//		sqlSession.getMapper(UserDao.class).deleteRefreshToken(map);
 		userDao.deleteRefreshToken(map);
 	}
 

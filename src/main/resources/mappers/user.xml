@@ -6,38 +6,38 @@
 
 	<!-- 사용자 정보를 저장한다. id는 repo클래스의 메소드 이름과 일치시킨다. -->
 	<insert id="insert" parameterType="User">
-		INSERT INTO vue_user (user_id, name, pwd)
-		VALUES(#{user_id}, #{name}, #{pwd})
+		INSERT INTO users (email, nickname, password, bio, profile_image)
+		VALUES(#{email}, #{nickname}, #{password}, #{bio}, #{profile_image})
 	</insert>
 	
 	<select id="loginUser" parameterType="User" resultType="User">
 		select *
-		from vue_user
-		where user_id=#{user_id} and pwd=#{pwd}	
+		from users
+		where email=#{email} and password=#{password}	
 	</select>
 	
 	<select id="getUser" parameterType="String" resultType="User">
 		select *
-		from vue_user
-		where user_id = #{user_id}
+		from users
+		where email = #{email}
 	</select>
 	
-	<select id="getRefreshToken" parameterType="string" resultType="string">
+	<select id="getRefreshToken" parameterType="String" resultType="String">
 		select token
-		from vue_user
-		where user_id = #{user_id}
+		from users
+		where email = #{email}
 	</select>
 	
 	<update id="saveRefreshToken" parameterType="map">
-		update vue_user
+		update users
 		set token = #{token}
-		where user_id = #{user_id}
+		where email = #{email}
 	</update>
 	
 	<update id="deleteRefreshToken" parameterType="map">
-		update vue_user
+		update users
 		set token = #{token, jdbcType=VARCHAR}
-		where user_id = #{user_id}
+		where email = #{email}
 	</update>
 	
 </mapper>

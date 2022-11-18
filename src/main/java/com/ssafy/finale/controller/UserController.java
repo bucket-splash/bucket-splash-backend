@@ -45,15 +45,15 @@ public class UserController {
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(
-			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) User user) {
+			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(이메일, 비밀번호).", required = true) User user) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		try {
 			User loginUser = userService.loginUser(user);
 			if (loginUser != null) {
-				String accessToken = jwtService.createAccessToken("user_id", loginUser.getUser_id());// key, data
-				String refreshToken = jwtService.createRefreshToken("user_id", loginUser.getUser_id());// key, data
-				userService.saveRefreshToken(user.getUser_id(), refreshToken);
+				String accessToken = jwtService.createAccessToken("email", loginUser.getEmail());// key, data
+				String refreshToken = jwtService.createRefreshToken("email", loginUser.getEmail());// key, data
+				userService.saveRefreshToken(user.getEmail(), refreshToken);
 				logger.debug("로그인 accessToken 정보 : {}", accessToken);
 				logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
 				resultMap.put("access-token", accessToken);
@@ -73,7 +73,7 @@ public class UserController {
 	}
 
 	@PostMapping("/user")
-	@ApiOperation(value = "name, ", response = Integer.class)
+	@ApiOperation(value = "회원가입", notes = "회원 정보를 받아 DB에 삽입한다.", response = Integer.class)
 	public ResponseEntity<?> insert(@RequestBody User user) {
 		try {
 			System.out.println(user);
@@ -86,22 +86,22 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
-	@GetMapping("/info/{user_id}")
+	@GetMapping("/info/{email}")
 	public ResponseEntity<Map<String, Object>> getInfo(
-			@PathVariable("user_id") @ApiParam(value = "인증할 회원의 아이디.", required = true) String user_id,
+			@PathVariable("email") @ApiParam(value = "인증할 회원의 이메일.", required = true) String email,
 			HttpServletRequest request) {
 //		logger.debug("user_id : {} ", user_id);
-		System.out.println("user_id : " + user_id);
+		System.out.println("email : " + email);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		System.out.println("access-token : "+request.getHeader("access-token"));
-//		String test_token = "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjY4NzUzNzY2NDExLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njg3NTQ2NjYsInN1YiI6InJlZnJlc2gtdG9rZW4iLCJ1c2VyX2lkIjoic3NhZnkifQ.zU2KPmZ_YtTVd8wTydxew7Qr6bQK2gdao8yyN5aELN8";
-		if (jwtService.checkToken(request.getHeader("access-token"))) {
-//		if (jwtService.checkToken(test_token)) {
+		String test_token = "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjY4NzU2NTg2MjUzLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njg3NTc0ODYsInN1YiI6InJlZnJlc2gtdG9rZW4iLCJlbWFpbCI6InN1amlAZ21haWwuY29tIn0.7WXvzjrBDk9xDNk_UcNBaz838fzwLZW58q_zrJ6TMmk";
+		if (jwtService.checkToken(test_token)) {
+//		if (jwtService.checkToken(request.getHeader("access-token"))) {
 			logger.info("사용 가능한 토큰!!!");
 			try {
 //				로그인 사용자 정보.
-				User user = userService.getUser(user_id);
+				User user = userService.getUser(email);
 				resultMap.put("userInfo", user);
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
@@ -119,12 +119,12 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "로그아웃", notes = "회원 정보를 담은 Token을 제거한다.", response = Map.class)
-	@GetMapping("/logout/{user_id}")
-	public ResponseEntity<?> removeToken(@PathVariable("user_id") String user_id) {
+	@GetMapping("/logout/{email}")
+	public ResponseEntity<?> removeToken(@PathVariable("email") String email) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			userService.deleRefreshToken(user_id);
+			userService.deleRefreshToken(email);
 			resultMap.put("message", SUCCESS);
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
@@ -144,8 +144,8 @@ public class UserController {
 		String token = request.getHeader("refresh-token");
 		logger.debug("token : {}, memberDto : {}", token, user);
 		if (jwtService.checkToken(token)) {
-			if (token.equals(userService.getRefreshToken(user.getUser_id()))) {
-				String accessToken = jwtService.createAccessToken("user_id", user.getUser_id());
+			if (token.equals(userService.getRefreshToken(user.getEmail()))) {
+				String accessToken = jwtService.createAccessToken("email", user.getEmail());
 				logger.debug("token : {}", accessToken);
 				logger.debug("정상적으로 액세스토큰 재발급!!!");
 				resultMap.put("access-token", accessToken);

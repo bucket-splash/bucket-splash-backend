@@ -1,72 +1,90 @@
 package com.ssafy.finale.dto;
 
-import java.util.Date;
-
 public class User {
 
-	private int user_no;
-	private String user_id; // 아이디
-	private String pwd; // 비밀번호
-	private String name; // 이름
-	private Date join_date;// 가입 날짜
+	private int user_id;
+	private String email; // 아이디 역할 
+	private int team_id;
+	private String nickname; // 닉네임 
+	private String password; // 비밀번호 
+	private String bio;	// 자기소개 한 줄 
+	private String profile_image; // 프로필 사진 
 	
-	public int getUser_no() {
-		return user_no;
+	public User() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setUser_no(int user_no) {
-		this.user_no = user_no;
+	public User(int user_id, String email, int team_id, String nickname, String password, String bio,
+			String profile_image) {
+		super();
+		this.user_id = user_id;
+		this.email = email;
+		this.team_id = team_id;
+		this.nickname = nickname;
+		this.password = password;
+		this.bio = bio;
+		this.profile_image = profile_image;
 	}
 
-	public String getUser_id() {
+	public int getUser_id() {
 		return user_id;
 	}
 
-	public void setUser_id(String user_id) {
+	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
 
-	public String getPwd() {
-		return pwd;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getName() {
-		return name;
+	public int getTeam_id() {
+		return team_id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTeam_id(int team_id) {
+		this.team_id = team_id;
 	}
 
-	public Date getJoin_date() {
-		return join_date;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setJoin_date(Date join_date) {
-		this.join_date = join_date;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getBio() {
+		return bio;
+	}
+
+	public void setBio(String bio) {
+		this.bio = bio;
+	}
+
+	public String getProfile_image() {
+		return profile_image;
+	}
+
+	public void setProfile_image(String profile_image) {
+		this.profile_image = profile_image;
 	}
 
 	@Override
 	public String toString() {
-		return "User [user_no=" + user_no + ", user_id=" + user_id + ", pwd=" + pwd + ", name=" + name + ", join_date="
-				+ join_date + "]";
+		return "User [user_id=" + user_id + ", email=" + email + ", team_id=" + team_id + ", nickname=" + nickname
+				+ ", password=" + password + ", bio=" + bio + ", profile_image=" + profile_image + "]";
 	}
-
-	// 기본 생성자
-	public User() {
-	}
-
-	public User(int user_no, String user_id, String pwd, String name, Date join_date) {
-		super();
-		this.user_no = user_no;
-		this.user_id = user_id;
-		this.pwd = pwd;
-		this.name = name;
-		this.join_date = join_date;
-	}
-
 }
