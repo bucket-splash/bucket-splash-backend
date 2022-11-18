@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- name space는 UserRepo의 fully qualified name으로 설정한다. -->
-<mapper namespace="com.ssafy.vue.dao.UserDao">
+<mapper namespace="com.ssafy.finale.dao.UserDao">
 
 	<!-- 사용자 정보를 저장한다. id는 repo클래스의 메소드 이름과 일치시킨다. -->
 	<insert id="insert" parameterType="User">
@@ -16,11 +16,28 @@
 		where user_id=#{user_id} and pwd=#{pwd}	
 	</select>
 	
-	<select id="selectUser" parameterType="String" resultType="User">
+	<select id="getUser" parameterType="String" resultType="User">
 		select *
 		from vue_user
 		where user_id = #{user_id}
 	</select>
 	
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from vue_user
+		where user_id = #{user_id}
+	</select>
+	
+	<update id="saveRefreshToken" parameterType="map">
+		update vue_user
+		set token = #{token}
+		where user_id = #{user_id}
+	</update>
+	
+	<update id="deleteRefreshToken" parameterType="map">
+		update vue_user
+		set token = #{token, jdbcType=VARCHAR}
+		where user_id = #{user_id}
+	</update>
 	
 </mapper>
