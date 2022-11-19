@@ -22,6 +22,12 @@
 		where email = #{email}
 	</select>
 	
+	<update id="updateUser" parameterType="User">
+		UPDATE users
+		SET nickname = #{nickname}, password = #{password} , bio = #{bio}, profile_image = #{profile_image}
+		WHERE user_id = #{user_id}
+	</update>
+	
 	<select id="getRefreshToken" parameterType="String" resultType="String">
 		select token
 		from users

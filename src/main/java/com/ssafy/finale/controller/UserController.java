@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,7 +28,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/user")
 @CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
 		RequestMethod.DELETE })
 public class UserController {
@@ -72,7 +73,7 @@ public class UserController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	@PostMapping("/user")
+	@PostMapping("/signin")
 	@ApiOperation(value = "회원가입", notes = "회원 정보를 받아 DB에 삽입한다.", response = Integer.class)
 	public ResponseEntity<?> insert(@RequestBody User user) {
 		try {
@@ -85,6 +86,16 @@ public class UserController {
 		}
 	}
 
+	@ApiOperation(value = "사용자의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping("update/{user_id}")
+	public ResponseEntity<String> updateUser(@RequestBody User user) throws Exception {
+		if (userService.updateUser(user)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+
+	
 	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
 	@GetMapping("/info/{email}")
 	public ResponseEntity<Map<String, Object>> getInfo(
@@ -95,7 +106,7 @@ public class UserController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		System.out.println("access-token : "+request.getHeader("access-token"));
-		String test_token = "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjY4NzU2NTg2MjUzLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njg3NTc0ODYsInN1YiI6InJlZnJlc2gtdG9rZW4iLCJlbWFpbCI6InN1amlAZ21haWwuY29tIn0.7WXvzjrBDk9xDNk_UcNBaz838fzwLZW58q_zrJ6TMmk";
+		String test_token = "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjY4NzYxMTUxMDgzLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njg3NjIwNTEsInN1YiI6InJlZnJlc2gtdG9rZW4iLCJlbWFpbCI6ImhlbGxvQGdtYWlsLmNvbSJ9.PQny1berE3zKgP88In0r4hiqhrOVlNaawaZlTl0w83g";
 		if (jwtService.checkToken(test_token)) {
 //		if (jwtService.checkToken(request.getHeader("access-token"))) {
 			logger.info("사용 가능한 토큰!!!");

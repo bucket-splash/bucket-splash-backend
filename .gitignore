@@ -33,7 +33,8 @@ build/
 .vscode/
 
 ### ssl ###
-DigiCertGlobalRootCA.crt.pem
+### DigiCertGlobalRootCA.crt.pem ###
 
 ### application properties ###
-application.properties
+### application.properties ###
+
