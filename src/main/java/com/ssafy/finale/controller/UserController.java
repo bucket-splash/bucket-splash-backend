@@ -102,13 +102,10 @@ public class UserController {
 	public ResponseEntity<Map<String, Object>> getInfo(
 			@PathVariable("email") @ApiParam(value = "인증할 회원의 이메일.", required = true) String email,
 			HttpServletRequest request) {
-//		logger.debug("user_id : {} ", user_id);
 		System.out.println("email : " + email);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		System.out.println("accessToken : "+request.getHeader("accessToken"));
-//		String test_token = "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjY4NzYxMTUxMDgzLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njg3NjIwNTEsInN1YiI6InJlZnJlc2gtdG9rZW4iLCJlbWFpbCI6ImhlbGxvQGdtYWlsLmNvbSJ9.PQny1berE3zKgP88In0r4hiqhrOVlNaawaZlTl0w83g";
-//		if (jwtService.checkToken(test_token)) {
 		if (jwtService.checkToken(request.getHeader("accessToken"))) {
 			logger.info("사용 가능한 토큰!!!");
 			try {
