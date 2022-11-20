@@ -6,42 +6,44 @@
 
 	<!-- 게시글 전체 조회 -->
 	<select id="selectBoard" resultType="board">
-		select no, title, writer, content, regtime, answer
-		  from vue_board 
-		 order by no desc
+		SELECT *
+		FROM board a
+		left join image_urls b
+		on a.board_id = b.board_id
+		order by created_at desc
 	</select>
-	
+
 	<!-- 게시글 상세 조회 -->
 	<select id="selectBoardByNo" resultType="board">
-		select no, title, writer, content, regtime, answer
-		  from vue_board 
-		 where no = #{no}
+		SELECT *
+		FROM board a
+		left join image_urls b
+        on a.board_id=b.board_id
+		where a.board_id = #{board_id}
 	</select>
 
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="board">
-		insert into vue_board(
-			title, writer, content
+		insert into board(
+		board_title, board_content
 		) values (
-			#{title}, #{writer}, #{content}
+		#{board_title}, #{board_content}
 		)
 	</insert>
-	
+
 	<!-- 게시글 수정 -->
 	<update id="updateBoard" parameterType="board">
-		update vue_board 
-		   set title = #{title}, 
-		   	   writer = #{writer}, 
-		   	   content = #{content},
-		   	   answer = #{answer}
-		 where no = #{no}
+		update board
+		set board_title = #{board_title},
+		board_content = #{board_content}
+		where board_id = #{board_id}
 	</update>
 
 	<!-- 게시글 삭제 -->
 	<delete id="deleteBoard" parameterType="int">
-		delete 
-		  from vue_board 
-		 where no = #{no}
+		delete
+		from board
+		where board_id = #{board_id}
 	</delete>
 
 </mapper>

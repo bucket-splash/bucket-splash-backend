@@ -57,9 +57,10 @@ public class UserController {
 				userService.saveRefreshToken(user.getEmail(), refreshToken);
 				logger.debug("로그인 accessToken 정보 : {}", accessToken);
 				logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
-				resultMap.put("access-token", accessToken);
-				resultMap.put("refresh-token", refreshToken);
+				resultMap.put("accessToken", accessToken);
+				resultMap.put("refreshToken", refreshToken);
 				resultMap.put("message", SUCCESS);
+				resultMap.put("userInfo", loginUser);
 				status = HttpStatus.ACCEPTED;
 			} else {
 				resultMap.put("message", FAIL);
@@ -105,10 +106,10 @@ public class UserController {
 		System.out.println("email : " + email);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
-		System.out.println("access-token : "+request.getHeader("access-token"));
-		String test_token = "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjY4NzYxMTUxMDgzLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njg3NjIwNTEsInN1YiI6InJlZnJlc2gtdG9rZW4iLCJlbWFpbCI6ImhlbGxvQGdtYWlsLmNvbSJ9.PQny1berE3zKgP88In0r4hiqhrOVlNaawaZlTl0w83g";
-		if (jwtService.checkToken(test_token)) {
-//		if (jwtService.checkToken(request.getHeader("access-token"))) {
+		System.out.println("accessToken : "+request.getHeader("accessToken"));
+//		String test_token = "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjY4NzYxMTUxMDgzLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njg3NjIwNTEsInN1YiI6InJlZnJlc2gtdG9rZW4iLCJlbWFpbCI6ImhlbGxvQGdtYWlsLmNvbSJ9.PQny1berE3zKgP88In0r4hiqhrOVlNaawaZlTl0w83g";
+//		if (jwtService.checkToken(test_token)) {
+		if (jwtService.checkToken(request.getHeader("accessToken"))) {
 			logger.info("사용 가능한 토큰!!!");
 			try {
 //				로그인 사용자 정보.
@@ -152,14 +153,14 @@ public class UserController {
 	public ResponseEntity<?> refreshToken(@RequestBody User user, HttpServletRequest request) throws Exception {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
-		String token = request.getHeader("refresh-token");
+		String token = request.getHeader("refreshToken");
 		logger.debug("token : {}, memberDto : {}", token, user);
 		if (jwtService.checkToken(token)) {
 			if (token.equals(userService.getRefreshToken(user.getEmail()))) {
 				String accessToken = jwtService.createAccessToken("email", user.getEmail());
 				logger.debug("token : {}", accessToken);
 				logger.debug("정상적으로 액세스토큰 재발급!!!");
-				resultMap.put("access-token", accessToken);
+				resultMap.put("accessToken", accessToken);
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			}

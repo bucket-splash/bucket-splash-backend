@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.finale.dao.ImageUrlDAO">
+
+	<!-- 이미지 url 등록 -->
+	<insert id="insertImageUrl" parameterType="ImageUrl">
+		insert into image_urls(
+		board_id, image_url
+		) values (
+		#{board_id}, #{image_url}
+		)
+	</insert>
+
+	<!-- 게시글 수정 -->
+	<update id="updateImageUrl" parameterType="ImageUrl">
+		update image_urls
+		set image_url = #{image_url}
+		where image_id = #{image_id}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteImageUrl" parameterType="int">
+		delete
+		from image_urls
+		where image_id = #{image_id}
+	</delete>
+
+</mapper>
+

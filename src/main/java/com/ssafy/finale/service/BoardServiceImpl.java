@@ -16,7 +16,7 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDAO boardDao;
 
     @Override
-	public List<Board> retrieveBoard() {
+	public List<Board> showAll() {
 		return boardDao.selectBoard();
 	}
     
@@ -26,22 +26,19 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Board detailBoard(int no) {
-		return boardDao.selectBoardByNo(no);
+	public List<Board> detailBoard(int board_id) {
+		return boardDao.selectBoardByNo(board_id);
 	}
 
 	@Override
 	@Transactional
 	public boolean updateBoard(Board board) {
-//		if(detailBoard(board.getNo()).getAnswer()!=null) {
-//			return false;
-//		}
 		return boardDao.updateBoard(board) == 1;
 	}
 
 	@Override
 	@Transactional
-	public boolean deleteBoard(int no) {
-		return boardDao.deleteBoard(no) == 1;
+	public boolean deleteBoard(int board_id) {
+		return boardDao.deleteBoard(board_id) == 1;
 	}
 }

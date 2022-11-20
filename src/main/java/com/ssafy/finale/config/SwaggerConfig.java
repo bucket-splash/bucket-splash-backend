@@ -13,6 +13,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 // localhost:8080/swagger-ui/index.html
+// 20.41.66.225:8080/swagger-ui/index.html
 //swagger 사용을 위해 선언한다.
 @EnableSwagger2
 @Configuration
