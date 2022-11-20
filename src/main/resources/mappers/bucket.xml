@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.finale.dao.BucketDAO">
+
+	<!-- 게시글 전체 조회 -->
+	<select id="selectBucket" resultType="Bucket">
+		SELECT *
+		FROM buckets
+	</select>
+
+	<!-- 게시글 상세 조회 -->
+	<select id="selectBucketByNo" resultType="Bucket">
+		SELECT *
+		FROM buckets
+		where bucket_id = #{bucket_id}
+	</select>
+
+	<!-- 게시글 등록 -->
+	<insert id="insertBucket" parameterType="Bucket">
+		insert into buckets(
+		category_id, bucket_title, bucket_content
+		) values (
+		#{category_id}, #{bucket_title}, #{bucket_content}
+		)
+	</insert>
+
+	<!-- 게시글 수정 -->
+	<update id="updateBucket" parameterType="Bucket">
+		update buckets
+		set category_id = #{category_id},
+		bucket_title = #{bucket_title},
+		bucket_content = #{bucket_content}
+		where bucket_id = #{bucket_id}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBucket" parameterType="int">
+		delete
+		from buckets
+		where bucket_id = #{bucket_id}
+	</delete>
+
+</mapper>
+
