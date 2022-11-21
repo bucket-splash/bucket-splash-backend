@@ -11,7 +11,7 @@
 	</insert>
 	
 	<select id="loginUser" parameterType="User" resultType="User">
-		select *
+		select user_id, email, nickname, password, bio, profile_image, teamlist_id
 		from users
 		where email=#{email} and password=#{password}	
 	</select>
@@ -24,7 +24,7 @@
 	
 	<update id="updateUser" parameterType="User">
 		UPDATE users
-		SET nickname = #{nickname}, password = #{password} , bio = #{bio}, profile_image = #{profile_image}
+		SET nickname = #{nickname} , bio = #{bio}, profile_image = #{profile_image}
 		WHERE user_id = #{user_id}
 	</update>
 	

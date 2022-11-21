@@ -16,13 +16,20 @@
 		FROM buckets
 		where bucket_id = #{bucket_id}
 	</select>
+	
+	<!-- 게시글 상세 조회 -->
+	<select id="selectBucketByUser" resultType="Bucket">
+		SELECT *
+		FROM buckets
+		where created_by = #{created_by}
+	</select>
 
 	<!-- 게시글 등록 -->
 	<insert id="insertBucket" parameterType="Bucket">
 		insert into buckets(
-		category_id, bucket_title, bucket_content
+		category_id, bucket_title, bucket_content, created_by
 		) values (
-		#{category_id}, #{bucket_title}, #{bucket_content}
+		#{category_id}, #{bucket_title}, #{bucket_content}, #{created_by}
 		)
 	</insert>
 

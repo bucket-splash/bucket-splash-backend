@@ -8,7 +8,7 @@ import com.ssafy.finale.dto.User;
 public interface UserDao {
 	
 	int insert(User user);
-	User loginUser(String email, String password) throws SQLException;
+	User loginUser(User user) throws SQLException;
 	User getUser(String email) throws SQLException;
 	Boolean updateUser(User user) throws SQLException;
 	public void saveRefreshToken(Map<String, String> map) throws SQLException;

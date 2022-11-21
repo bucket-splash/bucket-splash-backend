@@ -31,7 +31,7 @@ public class ImageUrlController {
 	@Autowired
 	private ImageUrlService imageUrlService;
 
-	@ApiOperation(value = "특정 게시글에 새로운 이미지를 입력(추가)한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "board_id, image_url을 입력해주세요. 특정 게시글에 새로운 이미지를 입력(추가)한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeImageUrl(@RequestBody ImageUrl image) {
 		logger.debug("writeImageUrl - 호출");
@@ -41,7 +41,7 @@ public class ImageUrlController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-	@ApiOperation(value = "이미지 번호에 해당하는 이미지 url을 입력받은 url로 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "image_id, image_url을 입력해주세요. 이미지 번호에 해당하는 이미지 url을 입력받은 url로 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("{image_id}")
 	public ResponseEntity<String> updateImageUrl(@RequestBody ImageUrl image) {
 		logger.debug("updateImageUrl - 호출");

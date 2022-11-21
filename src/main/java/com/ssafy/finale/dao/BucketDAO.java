@@ -9,8 +9,10 @@ import com.ssafy.finale.dto.Bucket;
 @Mapper
 public interface BucketDAO {
 	public List<Bucket> selectBucket(); // 전체 조회
-
+	
 	public Bucket selectBucketByNo(int bucket_id); // 상세 조회
+	
+	public List<Bucket> selectBucketByUser(String user_email); // 상세 조회
 
 	public int insertBucket(Bucket bucket); // 추가
 

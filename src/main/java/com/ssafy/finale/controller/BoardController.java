@@ -1,6 +1,8 @@
 package com.ssafy.finale.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.finale.dto.Board;
 import com.ssafy.finale.service.BoardService;
+import com.ssafy.finale.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -33,6 +36,9 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private UserService userService;
 
 	@ApiOperation(value = "모든 자유 게시글의 정보를 반환한다.", response = List.class)
 	@GetMapping
@@ -48,7 +54,17 @@ public class BoardController {
 		return new ResponseEntity<List<Board>>(boardService.detailBoard(board_id), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "새로운 자유 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "유저가 작성한 자유 게시글의 정보를 반환한다.", response = Board.class)
+	@GetMapping("/user/{user_email}")
+	public ResponseEntity<Map> showBoardByUser(@PathVariable String user_email) throws Exception {
+		logger.debug("showAllByUser - 호출");
+		Map<String, Object> map = new HashMap<>();
+		map.put("Boards", boardService.showAllByUser(user_email));
+		map.put("userInfo", userService.getUser(user_email));
+		return new ResponseEntity<Map>(map, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "board_title, board_content, created_by 를 넣어주세요. 새로운 자유 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Board board) {
 		logger.debug("writeBoard - 호출");
@@ -58,7 +74,7 @@ public class BoardController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-	@ApiOperation(value = "글번호에 해당하는 자유 게시글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "board_title, board_content를 넣어주세요. 글번호에 해당하는 자유 게시글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("{board_id}")
 	public ResponseEntity<String> updateBoard(@RequestBody Board board) {
 		logger.debug("updateBoard - 호출");

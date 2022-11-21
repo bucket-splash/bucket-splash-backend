@@ -39,4 +39,10 @@ public class BucketServiceImpl implements BucketService {
 		return bucketDao.deleteBucket(bucket_id) == 1;
 	}
 
+	@Override
+	public List<Bucket> showAllByUser(String user_email) {
+		return bucketDao.selectBucketByUser(user_email);
+	}
+
+
 }

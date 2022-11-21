@@ -34,9 +34,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User loginUser(User user) throws Exception {
+		System.out.println("userserviceimpl");
 		if (user.getEmail() == null || user.getPassword() == null)
 			return null;
-		return userDao.loginUser(user.getEmail(), user.getPassword());
+		return userDao.loginUser(user);
 	}
 
 	@Override

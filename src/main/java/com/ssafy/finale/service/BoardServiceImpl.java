@@ -41,4 +41,9 @@ public class BoardServiceImpl implements BoardService {
 	public boolean deleteBoard(int board_id) {
 		return boardDao.deleteBoard(board_id) == 1;
 	}
+
+	@Override
+	public List<Board> showAllByUser(String user_email) {
+		return boardDao.selectBoardByUser(user_email);
+	}
 }
