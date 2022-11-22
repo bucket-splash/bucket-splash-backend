@@ -74,8 +74,8 @@ public class BoardController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-	@ApiOperation(value = "board_title, board_content, board_image를 넣어주세요. 글번호에 해당하는 자유 게시글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PutMapping("{board_id}")
+	@ApiOperation(value = "board_id, board_title, board_content, board_image를 넣어주세요. 글번호에 해당하는 자유 게시글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping
 	public ResponseEntity<String> updateBoard(@RequestBody Board board) {
 		logger.debug("updateBoard - 호출");
 		logger.debug("" + board);
