@@ -44,5 +44,9 @@ public class BucketServiceImpl implements BucketService {
 		return bucketDao.selectBucketByUser(user_email);
 	}
 
+	@Override
+	public boolean checkBucket(Bucket bucket) {
+		return bucketDao.checkBucket(bucket) == 1;
+	}
 
 }

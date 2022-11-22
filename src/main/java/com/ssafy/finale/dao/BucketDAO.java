@@ -19,4 +19,6 @@ public interface BucketDAO {
 	public int updateBucket(Bucket bucket); // 수정
 
 	public int deleteBucket(int bucket_id); // 삭제
+	
+	public int checkBucket(Bucket bucket); // 특정 버킷 체크여부 변경 
 }

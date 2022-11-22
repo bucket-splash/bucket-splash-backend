@@ -17,5 +17,6 @@ public class Bucket {
 	private String bucket_content;
 	private Date created_at;
 	private String created_by;
+	private int check; // 완료 여부 
 
 }

@@ -57,7 +57,7 @@ public class BucketController {
 		return new ResponseEntity<Bucket>(bucketService.detailBucket(bucket_id), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "category_id, bucket_title, bucket_content, created_by를 넣어주세요. 새로운 버킷 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "category_id, bucket_title, bucket_content, created_by, check(default 0으로)를 넣어주세요. 새로운 버킷 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBucket(@RequestBody Bucket bucket) {
 		logger.debug("writeBucket - 호출");
@@ -82,6 +82,16 @@ public class BucketController {
 	public ResponseEntity<String> deleteBucket(@PathVariable int bucket_id) {
 		logger.debug("deleteBucket - 호출");
 		if (bucketService.deleteBucket(bucket_id)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+	
+	@ApiOperation(value = "bucket_id와 check를 입력해주세요. 버킷 id에 해당하는 버킷의 체크 여부를 수정(0 : 안함, 1: 함). 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping("/check")
+	public ResponseEntity<String> checkBucket(@RequestBody Bucket bucket) {
+		logger.debug("checkBucket - 호출");
+		if (bucketService.checkBucket(bucket)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

@@ -27,9 +27,9 @@
 	<!-- 게시글 등록 -->
 	<insert id="insertBucket" parameterType="Bucket">
 		insert into buckets(
-		category_id, bucket_title, bucket_content, created_by
+		category_id, bucket_title, bucket_content, created_by, buckets.check
 		) values (
-		#{category_id}, #{bucket_title}, #{bucket_content}, #{created_by}
+		#{category_id}, #{bucket_title}, #{bucket_content}, #{created_by}, #{check}
 		)
 	</insert>
 
@@ -49,5 +49,11 @@
 		where bucket_id = #{bucket_id}
 	</delete>
 
+	<!-- 게시글 완료 여부 수정 -->
+	<update id="checkBucket" parameterType="Bucket">
+		update buckets
+		set buckets.check = #{check}
+		where bucket_id = #{bucket_id}
+	</update>
 </mapper>
 
