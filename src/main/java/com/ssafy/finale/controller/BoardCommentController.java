@@ -58,7 +58,7 @@ public class BoardCommentController {
 	}
 
 	@ApiOperation(value = "board_comment_content를 넣어주세요. 자유 게시글에 있는 특정 댓글 번호의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PutMapping("{board_comment_id}")
+	@PutMapping
 	public ResponseEntity<String> updateBoardComment(@RequestBody BoardComment boardComment) {
 		logger.debug("updateBoardComment - 호출");
 		if (boardCommentService.updateBoardComment(boardComment)) {
