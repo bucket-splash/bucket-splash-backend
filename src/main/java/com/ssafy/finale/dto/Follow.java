@@ -14,7 +14,7 @@ import lombok.ToString;
 public class Follow {
 
 	private int follow_id;
-	private int followed_id;
-	private int following_id;
+	private String followed_email;
+	private String following_email;
 
 }

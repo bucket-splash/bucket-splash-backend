@@ -37,10 +37,10 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	BucketService bucketService;
-	
+
 	@Autowired
 	BoardService boardService;
 
@@ -132,7 +132,7 @@ public class UserController {
 		}
 	}
 
-	@ApiOperation(value = "user_id, nickname, bio, profile_image를 넣어주세요. 사용자의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", notes="bio, nickname, profile_image를 넣어주세요.",response = String.class)
+	@ApiOperation(value = "user_id, nickname, bio, profile_image를 넣어주세요. 사용자의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", notes = "bio, nickname, profile_image를 넣어주세요.", response = String.class)
 	@PutMapping("update")
 	public ResponseEntity<String> updateUser(@RequestBody User user) throws Exception {
 		if (userService.updateUser(user)) {
@@ -169,6 +169,29 @@ public class UserController {
 			logger.error("사용 불가능 토큰!!!");
 			resultMap.put("message", FAIL);
 			status = HttpStatus.UNAUTHORIZED;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	@ApiOperation(value = "회원조회", notes = "회원 정보를 반환합니다.", response = Map.class)
+	@GetMapping("/{email}")
+	public ResponseEntity<Map<String, Object>> getUserInfo(
+			@PathVariable("email") @ApiParam(value = "조회할 회원의 이메일.", required = true) String email,
+			HttpServletRequest request) {
+		System.out.println("email : " + email);
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		try {
+			User user = userService.getUser(email);
+			resultMap.put("userInfo", user);
+			resultMap.put("message", SUCCESS);
+			resultMap.put("Boards", boardService.showAllByUser(user.getEmail()));
+			resultMap.put("Buckets", bucketService.showAllByUser(user.getEmail()));
+			status = HttpStatus.ACCEPTED;
+		} catch (Exception e) {
+			logger.error("정보조회 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}

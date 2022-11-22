@@ -15,22 +15,27 @@ public class FollowServiceImpl implements FollowService {
 	FollowDAO followDao;
 
 	@Override
-	public List<Follow> showFollowedByUser(int user_id) {
-		return followDao.selectFollowedByUser(user_id);
+	public List<Follow> showFollowedByUser(String user_email) {
+		return followDao.selectFollowedByUser(user_email);
 	}
 
 	@Override
-	public List<Follow> showFollowingByUser(int user_id) {
-		return followDao.selectFollowingByUser(user_id);
+	public List<Follow> showFollowingByUser(String user_email) {
+		return followDao.selectFollowingByUser(user_email);
 	}
 
 	@Override
 	public boolean writeFollow(Follow follow) {
+		followDao.increaseFollowed(follow.getFollowed_email());
+		followDao.increaseFollowing(follow.getFollowing_email());
 		return followDao.insertFollow(follow) == 1;
 	}
 
 	@Override
 	public boolean deleteFollow(int follow_id) {
+		Follow result = followDao.getFollowInfo(follow_id);
+		followDao.decreaseFollowed(result.getFollowed_email());
+		followDao.decreaseFollowing(result.getFollowing_email());
 		return followDao.deleteFollow(follow_id) == 1;
 	}
 

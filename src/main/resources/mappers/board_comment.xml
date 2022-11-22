@@ -6,8 +6,8 @@
 
 	<!-- 특정 자유 게시글의 댓글 전체 조회 -->
 	<select id="selectBoardComment" resultType="Map">
-		SELECT board_comment_id, board_comment_content, created_by, created_at,
-		board_id, user_id, email, nickname, bio, profile_image
+		SELECT board_comment_id, board_comment_content, created_at,
+		board_id, user_id, email, nickname, profile_image
 		FROM
 		board_comments a
 		left join users b

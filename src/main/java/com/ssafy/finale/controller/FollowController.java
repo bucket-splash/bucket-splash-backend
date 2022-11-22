@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.finale.dto.Board;
 import com.ssafy.finale.dto.Follow;
 import com.ssafy.finale.service.FollowService;
-import com.ssafy.finale.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -36,28 +35,25 @@ public class FollowController {
 	@Autowired
 	private FollowService followService;
 
-	@Autowired
-	private UserService userService;
-
 	@ApiOperation(value = "해당 유저를 팔로우하고 있는 유저들의 리스트를 반환합니다.", response = Board.class)
-	@GetMapping("/followed/{user_id}")
-	public ResponseEntity<Map> showFollowedByUser(@PathVariable int user_id) throws Exception {
+	@GetMapping("/followed/{user_email}")
+	public ResponseEntity<Map> showFollowedByUser(@PathVariable String user_email) throws Exception {
 		logger.debug("showFollowedByUser - 호출");
 		Map<String, Object> map = new HashMap<>();
-		map.put("Followed", followService.showFollowedByUser(user_id));
+		map.put("Followed", followService.showFollowedByUser(user_email));
 		return new ResponseEntity<Map>(map, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "해당 유저가 팔로우하고 있는 유저들의 리스트를 반환합니다.", response = Board.class)
-	@GetMapping("/following/{user_id}")
-	public ResponseEntity<Map> showFollowingByUser(@PathVariable int user_id) throws Exception {
+	@GetMapping("/following/{user_email}")
+	public ResponseEntity<Map> showFollowingByUser(@PathVariable String user_email) throws Exception {
 		logger.debug("showFollowingByUser - 호출");
 		Map<String, Object> map = new HashMap<>();
-		map.put("Following", followService.showFollowingByUser(user_id));
+		map.put("Following", followService.showFollowingByUser(user_email));
 		return new ResponseEntity<Map>(map, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "followed_id, following_id, 를 넣어주세요. following_id가 followed_id를 팔로우합니다. 각각에는 user_id가 들어갑니다. 새로운 팔로우 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "followed_email, following_email, 를 넣어주세요. following_email가 followed_email를 팔로우합니다. 각각에는 user_email이 들어갑니다. 새로운 팔로우 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeFollow(@RequestBody Follow follow) {
 		logger.debug("writeFollow - 호출");

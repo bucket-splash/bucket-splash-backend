@@ -4,6 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.finale.dao.FollowDAO">
 
+	<!-- 팔로우 넘버로 정보 얻기 -->
+	<select id="getFollowInfo" resultType="Follow">
+		select *
+		from follows
+		where
+		follow_id = #{follow_id}
+	</select>
 
 	<!-- 해당 유저를 팔로우하고 있는 유저들 리스트 찾기 -->
 	<select id="selectFollowedByUser" resultType="User">
@@ -11,9 +18,9 @@
 		FROM
 		follows a
 		left join users b
-		on a.following_id = b.user_id
+		on a.following_email = b.email
 		where
-		a.followed_id = #{user_id};
+		a.followed_email = #{user_email};
 	</select>
 
 	<!-- 해당 유저가 팔로우하고 있는 유저들 리스트 찾기 -->
@@ -22,16 +29,50 @@
 		FROM
 		follows a
 		left join users b
-		on a.followed_id = b.user_id
+		on a.followed_email = b.email
 		where
-		a.following_id = #{user_id};
+		a.following_email = #{user_email};
 	</select>
+
+	<!-- 팔로우 당한 사람 followed_count 1더하기 해주기 -->
+	<update id="increaseFollowed" parameterType="String">
+		update users
+		set
+		followed_count = followed_count+1
+		where email = #{user_email}
+	</update>
+
+	<!-- 팔로우한 사람 following_count 1더하기 해주기 -->
+	<update id="increaseFollowing" parameterType="String">
+		update users
+		set
+		following_count = following_count+1
+		where email = #{user_email}
+	</update>
+
+
+	<!-- 언팔로우 당한 사람 followed_count 1빼기 해주기 -->
+	<update id="decreaseFollowed" parameterType="String">
+		update users
+		set
+		followed_count = followed_count-1
+		where email = #{user_email}
+	</update>
+
+	<!-- 언팔로우한 사람 following_count 1빼기 해주기 -->
+	<update id="decreaseFollowing" parameterType="String">
+		update users
+		set
+		following_count = following_count-1
+		where email = #{user_email}
+	</update>
 
 	<!-- 팔로우 -->
 	<insert id="insertFollow" parameterType="follow">
 		insert into follows(
-		followed_id, following_id)
-		values (#{followed_id},#{following_id});
+		followed_email, following_email)
+		values
+		(#{followed_email},#{following_email});
 	</insert>
 
 
