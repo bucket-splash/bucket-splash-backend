@@ -4,13 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.finale.dao.BoardDAO">
 
-	<!-- 게시글 전체 조회 -->
-	<select id="selectBoard" resultType="board">
+	<!-- - 게시글 전체 조회 -->
+	<!-- <select id="selectBoard" resultType="board">
 		SELECT *
 		FROM board a
 		left join image_urls b
 		on a.board_id = b.board_id
 		order by created_at desc
+	</select> -->
+	
+	<!-- 게시글 전체 조회 -->
+	<select id="selectBoard" resultType="map">
+		SELECT a.board_id, a.board_title, a.board_content, a.created_at, a.board_image, b.user_id, b.email, b.nickname, b.bio, b.profile_image
+		FROM board a
+		left join users b
+		on a.created_by = b.email
+		order by created_at desc
+		limit #{page}, 12
 	</select>
 
 	<!-- 유저의 게시글 전체 조회 -->
@@ -24,20 +34,21 @@
 	</select>
 	
 	<!-- 게시글 상세 조회 -->
-	<select id="selectBoardByNo" resultType="board">
-		SELECT *
+	<select id="selectBoardByNo" resultType="map">
+		SELECT a.board_id, a.board_title, a.board_content, a.created_at, a.board_image, b.user_id, b.email, b.nickname, b.bio, b.profile_image
 		FROM board a
-		left join image_urls b
-        on a.board_id=b.board_id
+		left join users b
+		on a.created_by = b.email
 		where a.board_id = #{board_id}
+		order by created_at desc
 	</select>
 
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="board">
 		insert into board(
-		board_title, board_content, created_by
+		board_title, board_content, created_by, board_image
 		) values (
-		#{board_title}, #{board_content}, #{created_by}
+		#{board_title}, #{board_content}, #{created_by}, #{board_image}
 		)
 	</insert>
 
@@ -45,7 +56,8 @@
 	<update id="updateBoard" parameterType="board">
 		update board
 		set board_title = #{board_title},
-		board_content = #{board_content}
+		board_content = #{board_content},
+		board_image = #{board_image}
 		where board_id = #{board_id}
 	</update>
 

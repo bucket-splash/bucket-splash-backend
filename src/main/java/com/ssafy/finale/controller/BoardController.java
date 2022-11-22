@@ -42,16 +42,16 @@ public class BoardController {
 
 	@ApiOperation(value = "모든 자유 게시글의 정보를 반환한다.", response = List.class)
 	@GetMapping
-	public ResponseEntity<List<Board>> retrieveBoard() throws Exception {
+	public ResponseEntity<List<Map<String, Object>>> retrieveBoard(int page) throws Exception {
 		logger.debug("showAll - 호출");
-		return new ResponseEntity<List<Board>>(boardService.showAll(), HttpStatus.OK);
+		return new ResponseEntity<List<Map<String, Object>>>(boardService.showAll(page), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "글번호에 해당하는 자유 게시글의 정보를 반환한다.", response = Board.class)
+	@ApiOperation(value = "글번호에 해당하는 자유 게시글의 정보를 반환한다.", response = Map.class)
 	@GetMapping("{board_id}")
-	public ResponseEntity<List<Board>> detailBoard(@PathVariable int board_id) {
+	public ResponseEntity<Map<String, Object>> detailBoard(@PathVariable int board_id) {
 		logger.debug("detailBoard - 호출");
-		return new ResponseEntity<List<Board>>(boardService.detailBoard(board_id), HttpStatus.OK);
+		return new ResponseEntity<Map<String, Object>>(boardService.detailBoard(board_id), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "유저가 작성한 자유 게시글의 정보를 반환한다.", response = Board.class)
@@ -64,7 +64,7 @@ public class BoardController {
 		return new ResponseEntity<Map>(map, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "board_title, board_content, created_by 를 넣어주세요. 새로운 자유 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "board_title, board_content, created_by, board_image 를 넣어주세요. 새로운 자유 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Board board) {
 		logger.debug("writeBoard - 호출");
@@ -74,7 +74,7 @@ public class BoardController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-	@ApiOperation(value = "board_title, board_content를 넣어주세요. 글번호에 해당하는 자유 게시글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "board_title, board_content, board_image를 넣어주세요. 글번호에 해당하는 자유 게시글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("{board_id}")
 	public ResponseEntity<String> updateBoard(@RequestBody Board board) {
 		logger.debug("updateBoard - 호출");
