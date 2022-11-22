@@ -40,10 +40,10 @@ public class BoardCommentController {
 	private UserService userService;
 
 	@ApiOperation(value = "특정 자유 게시글의 댓글 전체 조회한다.", response = Map.class)
-	@GetMapping("{board_comment_id}")
-	public ResponseEntity<List<BoardComment>> showBoardComment(@PathVariable int board_comment_id, int page) {
+	@GetMapping
+	public ResponseEntity<List<BoardComment>> showBoardComment(int board_id, int page) {
 		logger.debug("showBoardComment - 호출");
-		return new ResponseEntity<List<BoardComment>>(boardCommentService.showAll(board_comment_id, page),
+		return new ResponseEntity<List<BoardComment>>(boardCommentService.showAll(board_id, page),
 				HttpStatus.OK);
 	}
 

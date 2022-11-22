@@ -19,8 +19,8 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 	private BoardCommentDAO boardCommentDao;
 
 	@Override
-	public List<BoardComment> showAll(int board_comment_id, int page) {
-		return boardCommentDao.selectBoardComment(board_comment_id, (page-1)*12);
+	public List<BoardComment> showAll(int board_id, int page) {
+		return boardCommentDao.selectBoardComment(board_id, (page-1)*12);
 	}
 
 	@Override
