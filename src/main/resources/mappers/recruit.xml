@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.finale.dao.RecruitDAO">
+
+	<!-- 게시글 전체 조회 -->
+	<select id="selectRecruit" resultType="Recruit">
+		SELECT *
+		FROM recruits
+		order by created_at desc
+	</select>
+
+	<!-- 유저의 게시글 전체 조회 -->
+	<select id="selectRecruitByUser" resultType="Recruit">
+		SELECT *
+		FROM recruits
+		where created_by = #{created_by}
+		order by created_at desc
+	</select>
+	
+	<!-- 게시글 상세 조회 -->
+	<select id="selectRecruitByNo" resultType="Recruit">
+		SELECT *
+		FROM recruits
+		where recruit_id = #{recruit_id}
+	</select>
+
+	<!-- 게시글 등록 -->
+	<insert id="insertRecruit" parameterType="Recruit">
+		insert into recruits(
+		category_id, recruit_title, recruit_content, people_num, start_date, end_date, created_by
+		) values (
+		#{category_id}, #{recruit_title}, #{recruit_content}, #{people_num}, #{start_date}, #{end_date}, #{created_by}
+		)
+	</insert>
+
+	<!-- 게시글 수정 -->
+	<update id="updateRecruit" parameterType="Recruit">
+		update recruits
+		set recruit_title = #{recruit_title},
+		recruit_content = #{recruit_content},
+		people_num = #{people_num},
+		start_date = #{start_date},
+		end_date = #{end_date}
+		where recruit_id = #{recruit_id}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteRecruit" parameterType="int">
+		delete
+		from recruits
+		where recruit_id = #{recruit_id}
+	</delete>
+
+</mapper>
+
