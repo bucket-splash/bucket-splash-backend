@@ -43,28 +43,23 @@ public class BoardCommentController {
 	@GetMapping
 	public ResponseEntity<List<BoardComment>> showBoardComment(int board_id, int page) {
 		logger.debug("showBoardComment - 호출");
-		return new ResponseEntity<List<BoardComment>>(boardCommentService.showAll(board_id, page),
-				HttpStatus.OK);
+		return new ResponseEntity<List<BoardComment>>(boardCommentService.showAll(board_id, page), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "board_id, board_comment_content, created_by 를 넣어주세요. 새로운 댓글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
-	public ResponseEntity<String> writeBoardComment(@RequestBody BoardComment boardComment) {
+	public ResponseEntity<BoardComment> writeBoardComment(@RequestBody BoardComment boardComment) {
 		logger.debug("writeBoardComment - 호출");
-		if (boardCommentService.writeBoardComment(boardComment)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		boardCommentService.writeBoardComment(boardComment);
+		return new ResponseEntity<BoardComment>(boardComment, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "board_comment_content를 넣어주세요. 자유 게시글에 있는 특정 댓글 번호의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping
-	public ResponseEntity<String> updateBoardComment(@RequestBody BoardComment boardComment) {
+	public ResponseEntity<BoardComment> updateBoardComment(@RequestBody BoardComment boardComment) {
 		logger.debug("updateBoardComment - 호출");
-		if (boardCommentService.updateBoardComment(boardComment)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		boardCommentService.updateBoardComment(boardComment);
+		return new ResponseEntity<BoardComment>(boardComment, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "댓글 번호에 해당하는 댓글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)

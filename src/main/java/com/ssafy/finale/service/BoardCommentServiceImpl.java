@@ -1,15 +1,11 @@
 package com.ssafy.finale.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.finale.dao.BoardCommentDAO;
-import com.ssafy.finale.dao.BoardDAO;
-import com.ssafy.finale.dto.Board;
 import com.ssafy.finale.dto.BoardComment;
 
 @Service
@@ -20,12 +16,13 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 
 	@Override
 	public List<BoardComment> showAll(int board_id, int page) {
-		return boardCommentDao.selectBoardComment(board_id, (page-1)*12);
+		return boardCommentDao.selectBoardComment(board_id, (page - 1) * 12);
 	}
 
 	@Override
 	public boolean writeBoardComment(BoardComment boardComment) {
-		return boardCommentDao.insertBoardComment(boardComment) == 1;
+		boardCommentDao.insertBoardComment(boardComment);
+		return boardCommentDao.increaseCommentsCount(boardComment.getBoard_id()) == 1;
 	}
 
 	@Override
@@ -35,6 +32,8 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 
 	@Override
 	public boolean deleteBoardComment(int board_comment_id) {
+		BoardComment result = boardCommentDao.selectBoardCommentById(board_comment_id);
+		boardCommentDao.decreaseCommentsCount(result.getBoard_id());
 		return boardCommentDao.deleteBoardComment(board_comment_id) == 1;
 	}
 

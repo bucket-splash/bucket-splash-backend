@@ -17,9 +17,16 @@
 		desc
 		limit #{page}, 12
 	</select>
+	
+	<!-- 자유 게시글 넘버로 자유 게시글 정보 조회 -->
+	<select id="selectBoardCommentById" resultType="BoardComment">
+		SELECT *
+		from board_comments
+		where board_comment_id = #{board_comment_id}
+	</select>
 
 	<!-- 댓글 등록 -->
-	<insert id="insertBoardComment" parameterType="BoardComment">
+	<insert id="insertBoardComment" parameterType="BoardComment"  useGeneratedKeys="true" keyProperty="board_comment_id">
 		insert into
 		board_comments(
 		board_comment_content, created_by, board_id
@@ -43,6 +50,22 @@
 		board_comments
 		where board_comment_id = #{board_comment_id}
 	</delete>
+
+	<!-- 댓글이 달린 자유 게시글의 comments_count 1더하기 해주기 -->
+	<update id="increaseCommentsCount" parameterType="int">
+		update board
+		set
+		comments_count = comments_count+1
+		where board_id = #{board_id}
+	</update>
+
+	<!-- 댓글이 삭제된 자유 게시글의 comments_count 1빼기 해주기 -->
+	<update id="decreaseCommentsCount" parameterType="int">
+		update board
+		set
+		comments_count = comments_count-1
+		where board_id = #{board_id}
+	</update>
 
 </mapper>
 

@@ -44,22 +44,18 @@ public class CommentController {
 
 	@ApiOperation(value = "recruit_id, comment_content, created_by 를 넣어주세요. 새로운 댓글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
-	public ResponseEntity<String> writeComment(@RequestBody Comment comment) {
+	public ResponseEntity<Comment> writeComment(@RequestBody Comment comment) {
 		logger.debug("writeComment - 호출");
-		if (commentService.writeComment(comment)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		commentService.writeComment(comment);
+		return new ResponseEntity<Comment>(comment, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "board_comment_content를 넣어주세요. 자유 게시글에 있는 특정 댓글 번호의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PutMapping("{comment_id}")
-	public ResponseEntity<String> updateComment(@RequestBody Comment comment) {
+	@PutMapping
+	public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) {
 		logger.debug("updateComment - 호출");
-		if (commentService.updateComment(comment)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		commentService.updateComment(comment);
+		return new ResponseEntity<Comment>(comment, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "댓글 번호에 해당하는 댓글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)

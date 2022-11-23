@@ -19,7 +19,7 @@
 	</select>
 
 	<!-- 댓글 등록 -->
-	<insert id="insertComment" parameterType="Comment">
+	<insert id="insertComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="bucket_id">
 		insert into
 		comments(
 		comment_content, created_by, recruit_id

@@ -18,4 +18,5 @@ public class Board {
 	private String created_by; // user_email 들어감 
 	private String board_image;	
 	private int likes_count;
+	private int comments_count;
 }
