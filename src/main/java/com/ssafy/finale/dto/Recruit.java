@@ -24,5 +24,6 @@ public class Recruit {
 	private String end_date;
 	private Date created_at;
 	private String created_by;
+	private int comments_count;
 
 }

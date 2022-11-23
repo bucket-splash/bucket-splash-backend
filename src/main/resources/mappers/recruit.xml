@@ -27,7 +27,7 @@
 	</select>
 
 	<!-- 게시글 등록 -->
-	<insert id="insertRecruit" parameterType="Recruit">
+	<insert id="insertRecruit" parameterType="Recruit" useGeneratedKeys="true" keyProperty="recruit_id">
 		insert into recruits(
 		category_id, recruit_title, recruit_content, people_num, start_date, end_date, created_by
 		) values (

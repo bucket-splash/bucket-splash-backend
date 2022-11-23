@@ -62,25 +62,18 @@ public class RecruitController {
 		return new ResponseEntity<Map>(map, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "category_id, recruit_title, recruit_content, people_num, start_date, end_date, created_by 를 넣어주세요. 새로운 자유 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "category_id, recruit_title, recruit_content, people_num, start_date, end_date, created_by 를 넣어주세요. 새로운 자유 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = Recruit.class)
 	@PostMapping
-	public ResponseEntity<String> writeRecruit(@RequestBody Recruit recruit) {
-		logger.debug("writRecruit - 호출");
-		if (recruitService.writeRecruit(recruit)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	public ResponseEntity<Recruit> writeRecruit(@RequestBody Recruit recruit) {
+		recruitService.writeRecruit(recruit);
+		return new ResponseEntity<Recruit>(recruit, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "recruit_id, category_id, recruit_title, recruit_content, people_num, start_date, end_date를 넣어주세요. 글번호에 해당하는 자유 게시글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PutMapping("{recruit_id}")
-	public ResponseEntity<String> updateRecruit(@RequestBody Recruit recruit) {
-		logger.debug("updateRecruit - 호출");
-		logger.debug("" + recruit);
-		if (recruitService.updateRecruit(recruit)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	@ApiOperation(value = "recruit_id, category_id, recruit_title, recruit_content, people_num, start_date, end_date를 넣어주세요. 글번호에 해당하는 자유 게시글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = Recruit.class)
+	@PutMapping
+	public ResponseEntity<Recruit> updateRecruit(@RequestBody Recruit recruit) {
+		recruitService.updateRecruit(recruit);
+		return new ResponseEntity<Recruit>(recruit, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "글번호에 해당하는 모집 게시글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
