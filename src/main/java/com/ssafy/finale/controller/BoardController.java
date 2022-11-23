@@ -64,6 +64,30 @@ public class BoardController {
 		return new ResponseEntity<Map>(map, HttpStatus.OK);
 	}
 
+
+	@ApiOperation(value = "좋아요 많은 순으로 전체 조회 ", response = List.class)
+	@GetMapping("order")
+	public ResponseEntity<List<Map<String, Object>>> detailBoardOrderByLikes(int page) {
+		logger.debug("detailBoardOrderByLikes - 호출");
+		return new ResponseEntity<List<Map<String, Object>>>(boardService.showBoardOrderByLikes(page), HttpStatus.OK);
+	}
+
+
+	@ApiOperation(value = "사용자가 팔로우한 사람들의 전체 자유 게시글 조회 ", response = List.class)
+	@GetMapping("following")
+	public ResponseEntity<List<Map<String, Object>>> detailBoardFollowing(String user_email) {
+		logger.debug("detailBoardFollowing - 호출");
+		return new ResponseEntity<List<Map<String, Object>>>(boardService.showBoardFollowing(user_email), HttpStatus.OK);
+	}
+
+
+	@ApiOperation(value = "좋아요 많은 순으로 사용자가 팔로우한 사람들의 전체 자유 게시글 조회", response = List.class)
+	@GetMapping("following/order")
+	public ResponseEntity<List<Map<String, Object>>> detailBoardFollowingOrderByLikes(String user_email) {
+		logger.debug("detailBoardFollowingOrderByLikes - 호출");
+		return new ResponseEntity<List<Map<String, Object>>>(boardService.showBoardFollowingOrderByLikes(user_email), HttpStatus.OK);
+	}
+
 	@ApiOperation(value = "board_title, board_content, created_by, board_image 를 넣어주세요. 새로운 자유 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Board board) {

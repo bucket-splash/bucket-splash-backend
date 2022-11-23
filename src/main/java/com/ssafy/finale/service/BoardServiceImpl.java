@@ -47,4 +47,19 @@ public class BoardServiceImpl implements BoardService {
 	public List<Board> showAllByUser(String user_email) {
 		return boardDao.selectBoardByUser(user_email);
 	}
+
+	@Override
+	public List<Map<String, Object>> showBoardOrderByLikes(int page) {
+		return boardDao.selectBoardOrderByLikes((page-1)*12);
+	}
+
+	@Override
+	public List<Map<String, Object>> showBoardFollowing(String user_email) {
+		return boardDao.selectBoardFollowing(user_email);
+	}
+
+	@Override
+	public List<Map<String, Object>> showBoardFollowingOrderByLikes(String user_email) {
+		return boardDao.selectBoardFollowingOrderByLikes(user_email);
+	}
 }

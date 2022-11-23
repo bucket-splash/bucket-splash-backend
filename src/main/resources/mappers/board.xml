@@ -3,15 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.finale.dao.BoardDAO">
-
-	<!-- - 게시글 전체 조회 -->
-	<!-- <select id="selectBoard" resultType="board">
-		SELECT *
-		FROM board a
-		left join image_urls b
-		on a.board_id = b.board_id
-		order by created_at desc
-	</select> -->
 	
 	<!-- 게시글 전체 조회 -->
 	<select id="selectBoard" resultType="map">
@@ -22,7 +13,55 @@
 		order by created_at desc
 		limit #{page}, 12
 	</select>
+	
+	<!-- 좋아요 많은 순으로 전체 조회 -->
+	<select id="selectBoardOrderByLikes" resultType="map">
+		SELECT a.board_id, a.board_title, a.board_content, a.created_at, a.board_image, a.likes_count, a.comments_count, b.user_id, b.email, b.nickname, b.bio, b.profile_image
+		FROM board a
+		left join users b
+		on a.created_by = b.email
+		order by a.likes_count desc, created_at desc
+		limit #{page}, 12
+	</select>
 
+	<!-- 사용자가 팔로우한 사람들의 전체 자유 게시글 조회 -->
+	<select id="selectBoardFollowing" parameterType="String" resultType="map">
+		select *
+		from (SELECT a.board_id, a.board_title, a.board_content, a.created_at, a.board_image, a.likes_count, a.comments_count, b.user_id, b.email, b.nickname, b.bio, b.profile_image
+		FROM board a
+		left join users b
+		on a.created_by = b.email
+		order by a.likes_count desc) c
+        inner join (SELECT b.*
+		FROM
+		follows a
+		left join users b
+		on a.followed_email = b.email
+		where
+		a.following_email = #{user_email}) d
+        on c.email = d.email
+        order by created_at desc
+	</select>
+	
+	<!-- 좋아요 많은 순으로 사용자가 팔로우한 사람들의 전체 자유 게시글 조회 -->
+	<select id="selectBoardFollowingOrderByLikes" parameterType="String" resultType="map">
+		select *
+		from (SELECT a.board_id, a.board_title, a.board_content, a.created_at, a.board_image, a.likes_count, a.comments_count, b.user_id, b.email, b.nickname, b.bio, b.profile_image
+		FROM board a
+		left join users b
+		on a.created_by = b.email
+		order by a.likes_count desc) c
+        inner join (SELECT b.*
+		FROM
+		follows a
+		left join users b
+		on a.followed_email = b.email
+		where
+		a.following_email = #{user_email}) d
+        on c.email = d.email
+		order by a.likes_count desc, created_at desc
+	</select>
+	
 	<!-- 유저의 게시글 전체 조회 -->
 	<select id="selectBoardByUser" resultType="board">
 		SELECT *
