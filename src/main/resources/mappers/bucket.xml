@@ -8,6 +8,7 @@
 	<select id="selectBucket" resultType="Bucket">
 		SELECT *
 		FROM buckets
+		order by created_at asc
 	</select>
 
 	<!-- 게시글 상세 조회 -->
@@ -25,7 +26,7 @@
 	</select>
 
 	<!-- 게시글 등록 -->
-	<insert id="insertBucket" parameterType="Bucket">
+	<insert id="insertBucket" parameterType="Bucket" useGeneratedKeys="true" keyProperty="bucket_id">
 		insert into buckets(
 		category_id, bucket_title, created_by, buckets.check
 		) values (

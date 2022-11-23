@@ -73,14 +73,5 @@ public class FollowController {
 			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 		}
 	}
-//
-//	@ApiOperation(value = "팔로우 번호에 해당하는 팔로우 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-//	@DeleteMapping("{follow_id}")
-//	public ResponseEntity<String> deleteFollow(@PathVariable int follow_id) {
-//		logger.debug("deleteFollow - 호출");
-//		if (followService.deleteFollow(follow_id)) {
-//			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-//		}
-//		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
-//	}
+	
 }

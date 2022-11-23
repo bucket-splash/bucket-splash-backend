@@ -42,14 +42,14 @@ public class BucketController {
 		logger.debug("showAll - 호출");
 		return new ResponseEntity<List<Bucket>>(bucketService.showAll(), HttpStatus.OK);
 	}
-	
-	@ApiOperation(value = "모든 버킷의 정보를 반환한다.", response = List.class)
+
+	@ApiOperation(value = "해당 유저가 작성한 모든 버킷의 정보를 반환한다.", response = List.class)
 	@GetMapping("/user")
 	public ResponseEntity<List<Bucket>> datailBoardByUser(@PathVariable String user_email) throws Exception {
 		logger.debug("showAllByUser - 호출");
 		return new ResponseEntity<List<Bucket>>(bucketService.showAllByUser(user_email), HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "버킷 id에 해당하는 버킷의 정보를 반환한다.", response = Board.class)
 	@GetMapping("{bucket_id}")
 	public ResponseEntity<Bucket> detailBucket(@PathVariable int bucket_id) {
@@ -57,24 +57,20 @@ public class BucketController {
 		return new ResponseEntity<Bucket>(bucketService.detailBucket(bucket_id), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "category_id, bucket_title, created_by, check(default 0으로)를 넣어주세요. 새로운 버킷 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "category_id, bucket_title, created_by, check(default 0)를 넣어주세요. 새로운 버킷 정보를 입력한다. 그리고 DB입력 성공여부에 따라 bucket_id 또는 -1 숫자를 반환한다.", response = String.class)
 	@PostMapping
-	public ResponseEntity<String> writeBucket(@RequestBody Bucket bucket) {
+	public ResponseEntity<Bucket> writeBucket(@RequestBody Bucket bucket) {
 		logger.debug("writeBucket - 호출");
-		if (bucketService.writeBucket(bucket)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		bucketService.writeBucket(bucket);
+		return new ResponseEntity<Bucket>(bucket, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "bucket_id, category_id, bucket_title를 넣어주세요. 버킷 id에 해당하는 버킷의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PutMapping("{bucket_id}")
-	public ResponseEntity<String> updateBucket(@RequestBody Bucket bucket) {
+	@PutMapping
+	public ResponseEntity<Bucket> updateBucket(@RequestBody Bucket bucket) {
 		logger.debug("updateBucket - 호출");
-		if (bucketService.updateBucket(bucket)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		bucketService.updateBucket(bucket);
+		return new ResponseEntity<Bucket>(bucket, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "버킷 id에 해당하는 버킷의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
@@ -86,7 +82,7 @@ public class BucketController {
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
-	
+
 	@ApiOperation(value = "bucket_id와 check를 입력해주세요. 버킷 id에 해당하는 버킷의 체크 여부를 수정(0 : 안함, 1: 함). 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("/check")
 	public ResponseEntity<String> checkBucket(@RequestBody Bucket bucket) {
