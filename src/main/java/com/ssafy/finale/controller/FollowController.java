@@ -53,6 +53,13 @@ public class FollowController {
 		return new ResponseEntity<Map>(map, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "following이 followed를 팔로우하고 있는지 여부를 반환합니다.", response = String.class)
+	@GetMapping("/{following_email}/{followed_email}")
+	public ResponseEntity<Boolean> showIfFollowing(@PathVariable String following_email, @PathVariable String followed_email) throws Exception {
+		logger.debug("showIfFollowing - 호출");
+		return new ResponseEntity<Boolean>(followService.checkFollow(following_email, followed_email), HttpStatus.OK);
+	}
+
 	@ApiOperation(value = "followed_email, following_email 를 넣어주세요. following_email가 followed_email를 팔로우하고 있으면 언팔되고, 팔로우 안돼있으면 팔로우합니다. 각각에는 user_email이 들어갑니다. 새로운 팔로우 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeFollow(@RequestBody Follow follow) {

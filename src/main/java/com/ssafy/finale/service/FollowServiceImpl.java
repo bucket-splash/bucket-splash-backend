@@ -26,9 +26,13 @@ public class FollowServiceImpl implements FollowService {
 
 	@Override
 	public boolean writeFollow(Follow follow) {
-		followDao.increaseFollowed(follow.getFollowed_email());
-		followDao.increaseFollowing(follow.getFollowing_email());
-		return followDao.insertFollow(follow) == 1;
+		if (followDao.insertFollow(follow) == 1) {
+			followDao.increaseFollowed(follow.getFollowed_email());
+			followDao.increaseFollowing(follow.getFollowing_email());
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -42,7 +46,7 @@ public class FollowServiceImpl implements FollowService {
 	@Override
 	public boolean checkFollow(String following_email, String followed_email) {
 		Follow result = followDao.checkFollow(following_email, followed_email);
-		if(result == null) {
+		if (result == null) {
 			return false;
 		}
 		return true;
