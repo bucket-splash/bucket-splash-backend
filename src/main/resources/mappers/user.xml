@@ -6,44 +6,68 @@
 
 	<!-- 사용자 정보를 저장한다. id는 repo클래스의 메소드 이름과 일치시킨다. -->
 	<insert id="insert" parameterType="User">
-		INSERT INTO users (email, nickname, password, bio, profile_image)
-		VALUES(#{email}, #{nickname}, #{password}, #{bio}, #{profile_image})
+		INSERT INTO users (email,
+		nickname, password, bio, profile_image)
+		VALUES(#{email},
+		#{nickname},
+		#{password}, #{bio}, #{profile_image})
 	</insert>
-	
+
+	<insert id="addTeamId" parameterType="int">
+		INSERT INTO team_lists
+		(teamlist_id)
+		VALUES (#{user_id})
+	</insert>
+
+	<update id="setTeamId" parameterType="int">
+		SET foreign_key_checks = 0
+		UPDATE users
+		SET teamlist_id = #{user_id}
+		WHERE user_id = #{user_id}
+		SET
+		foreign_key_checks = 1
+	</update>
+
 	<select id="loginUser" parameterType="User" resultType="User">
-		select user_id, email, nickname, password, bio, profile_image, teamlist_id
+		select
+		user_id, email, nickname, password, bio, profile_image, teamlist_id
 		from users
-		where email=#{email} and password=#{password}	
+		where email=#{email} and password=#{password}
 	</select>
-	
+
 	<select id="getUser" parameterType="String" resultType="User">
 		select *
 		from users
 		where email = #{email}
 	</select>
-	
+
 	<update id="updateUser" parameterType="User">
 		UPDATE users
-		SET nickname = #{nickname} , bio = #{bio}, profile_image = #{profile_image}
-		WHERE user_id = #{user_id}
+		SET nickname =
+		#{nickname} , bio = #{bio}, profile_image = #{profile_image}
+		WHERE
+		user_id = #{user_id}
 	</update>
-	
-	<select id="getRefreshToken" parameterType="String" resultType="String">
+
+	<select id="getRefreshToken" parameterType="String"
+		resultType="String">
 		select token
 		from users
 		where email = #{email}
 	</select>
-	
+
 	<update id="saveRefreshToken" parameterType="map">
 		update users
-		set token = #{token}
+		set
+		token = #{token}
 		where email = #{email}
 	</update>
-	
+
 	<update id="deleteRefreshToken" parameterType="map">
 		update users
-		set token = #{token, jdbcType=VARCHAR}
+		set
+		token = #{token, jdbcType=VARCHAR}
 		where email = #{email}
 	</update>
-	
+
 </mapper>

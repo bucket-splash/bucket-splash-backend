@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.finale.UserSha256;
 import com.ssafy.finale.dto.User;
 import com.ssafy.finale.service.BoardService;
 import com.ssafy.finale.service.BucketService;
@@ -58,6 +59,7 @@ public class UserController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		try {
+			user.setPassword(UserSha256.encrypt(user.getPassword()));
 			User loginUser = userService.loginUser(user);
 			System.out.println("user : " + user);
 			System.out.println("loginUser : " + loginUser);
@@ -91,6 +93,7 @@ public class UserController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		try {
+			user.setPassword(UserSha256.encrypt(user.getPassword()));
 			User loginUser = userService.loginUser(user);
 			if (loginUser == null) {
 				userService.insert(user);
@@ -121,15 +124,12 @@ public class UserController {
 
 	@PostMapping("/signup")
 	@ApiOperation(value = "회원가입", notes = "bio, email, nickname, password, profile_image를 넣어주세요.", response = Integer.class)
-	public ResponseEntity<?> insert(@RequestBody User user) {
-		try {
-			System.out.println(user);
-			int result = userService.insert(user);
-			return new ResponseEntity<Integer>(result, HttpStatus.CREATED);
-
-		} catch (Exception e) {
-			return exceptionHandling(e);
+	public ResponseEntity<String> insert(@RequestBody User user) throws Exception {
+		user.setPassword(UserSha256.encrypt(user.getPassword()));
+		if (userService.insert(user)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
 	@ApiOperation(value = "user_id, nickname, bio, profile_image를 넣어주세요. 사용자의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", notes = "bio, nickname, profile_image를 넣어주세요.", response = String.class)
@@ -162,13 +162,13 @@ public class UserController {
 				status = HttpStatus.ACCEPTED;
 			} catch (Exception e) {
 				logger.error("정보조회 실패 : {}", e);
-				resultMap.put("message", e.getMessage());
+				resultMap.put("message", FAIL);
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 			}
 		} else {
 			logger.error("사용 불가능 토큰!!!");
 			resultMap.put("message", FAIL);
-			status = HttpStatus.UNAUTHORIZED;
+			status = HttpStatus.ACCEPTED;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}

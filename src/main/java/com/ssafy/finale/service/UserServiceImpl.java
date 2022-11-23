@@ -1,5 +1,6 @@
 package com.ssafy.finale.service;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,8 +29,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int insert(User user) {
-		return userDao.insert(user);
+	public Boolean insert(User user) throws Exception {
+//		userDao.insert(user);
+//		User tmpUser = userDao.getUser(user.getEmail());
+//		userDao.addTeamId(tmpUser.getUser_id());
+//
+//		return userDao.setTeamId(tmpUser.getUser_id());
+		return userDao.insert(user) == 1;
 	}
 
 	@Override
