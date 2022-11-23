@@ -1,7 +1,6 @@
 package com.ssafy.finale.dto;
 
 import java.util.Date;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +17,5 @@ public class Board {
 	private String image_url;
 	private String created_by; // user_email 들어감 
 	private String board_image;	
+	private int likes_count;
 }

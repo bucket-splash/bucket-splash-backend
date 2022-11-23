@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.finale.dao.LikeDAO">
+
+	<!-- 팔로우 넘버로 정보 얻기 -->
+	<select id="getLikeInfo" resultType="Like">
+		select *
+		from likes
+		where
+		like_id = #{like_id}
+	</select>
+	
+	<!-- 사용자 이메일과 보드넘버로 좋아요 정보 얻기 -->
+	<select id="getLikeInfoByEmail" resultType="Like">
+		select *
+		from likes
+		where
+		user_email = #{user_email} and board_id = #{board_id}
+	</select>
+
+	<!-- 해당 자유 게시글을 특정 사용자가 좋아요 눌렀는지 확인하기 -->
+	<select id="checkIfUserLiked" resultType="Like">
+		SELECT a.*
+		FROM
+		likes a
+		left join users b
+		on a.user_email = b.email
+		where
+		a.board_id = #{board_id} and a.user_email = #{user_email};
+	</select>
+
+	<!-- 좋아요 눌러진 자유 게시글의 likes_count 1더하기 해주기 -->
+	<update id="increaseLikesCount" parameterType="int">
+		update board
+		set
+		likes_count = likes_count+1
+		where board_id = #{board_id}
+	</update>
+
+	<!-- 좋아요 해제당한 자유 게시글의 likes_count 1빼기 해주기 -->
+	<update id="decreaseLikesCount" parameterType="int">
+		update board
+		set
+		likes_count = likes_count-1
+		where board_id = #{board_id}
+	</update>
+
+	<!-- 좋아요 -->
+	<insert id="insertLike" parameterType="like">
+		insert into likes(
+		user_email, board_id)
+		values
+		(#{user_email},#{board_id});
+	</insert>
+
+
+	<!-- 좋아요 해제 -->
+	<delete id="deleteLike" parameterType="int">
+		delete
+		from likes
+		where
+		like_id = #{like_id}
+	</delete>
+
+</mapper>
+
