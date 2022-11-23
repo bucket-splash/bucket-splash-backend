@@ -50,7 +50,7 @@ public class CommentController {
 		return new ResponseEntity<Comment>(comment, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "board_comment_content를 넣어주세요. 자유 게시글에 있는 특정 댓글 번호의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "comment_id, comment_content를 넣어주세요. 자유 게시글에 있는 특정 댓글 번호의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping
 	public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) {
 		logger.debug("updateComment - 호출");

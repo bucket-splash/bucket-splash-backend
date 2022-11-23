@@ -21,7 +21,8 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public boolean writeComment(Comment comment) {
-		return commentDao.insertComment(comment) == 1;
+		commentDao.insertComment(comment);
+		return commentDao.increaseCommentsCount(comment.getRecruit_id()) == 1;
 	}
 
 	@Override
@@ -31,7 +32,9 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public boolean deleteComment(int comment_id) {
-		return commentDao.deleteComment(comment_id) == 1;
+		Comment result = commentDao.selectCommentById(comment_id);
+		commentDao.deleteComment(comment_id);
+		return commentDao.decreaseCommentsCount(result.getRecruit_id()) == 1;
 	}
 
 }
