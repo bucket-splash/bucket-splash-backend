@@ -57,7 +57,7 @@ public class BucketController {
 		return new ResponseEntity<Bucket>(bucketService.detailBucket(bucket_id), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "category_id, bucket_title, bucket_content, created_by, check(default 0으로)를 넣어주세요. 새로운 버킷 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "category_id, bucket_title, created_by, check(default 0으로)를 넣어주세요. 새로운 버킷 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBucket(@RequestBody Bucket bucket) {
 		logger.debug("writeBucket - 호출");
@@ -67,7 +67,7 @@ public class BucketController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-	@ApiOperation(value = "bucket_id, category_id, bucket_title, bucket_content를 넣어주세요. 버킷 id에 해당하는 버킷의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "bucket_id, category_id, bucket_title를 넣어주세요. 버킷 id에 해당하는 버킷의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("{bucket_id}")
 	public ResponseEntity<String> updateBucket(@RequestBody Bucket bucket) {
 		logger.debug("updateBucket - 호출");

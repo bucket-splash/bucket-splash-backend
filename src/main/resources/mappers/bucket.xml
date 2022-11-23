@@ -27,9 +27,9 @@
 	<!-- 게시글 등록 -->
 	<insert id="insertBucket" parameterType="Bucket">
 		insert into buckets(
-		category_id, bucket_title, bucket_content, created_by, buckets.check
+		category_id, bucket_title, created_by, buckets.check
 		) values (
-		#{category_id}, #{bucket_title}, #{bucket_content}, #{created_by}, #{check}
+		#{category_id}, #{bucket_title}, #{created_by}, #{check}
 		)
 	</insert>
 
@@ -37,8 +37,7 @@
 	<update id="updateBucket" parameterType="Bucket">
 		update buckets
 		set category_id = #{category_id},
-		bucket_title = #{bucket_title},
-		bucket_content = #{bucket_content}
+		bucket_title = #{bucket_title}
 		where bucket_id = #{bucket_id}
 	</update>
 
