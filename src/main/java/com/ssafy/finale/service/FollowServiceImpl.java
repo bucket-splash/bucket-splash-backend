@@ -39,4 +39,18 @@ public class FollowServiceImpl implements FollowService {
 		return followDao.deleteFollow(follow_id) == 1;
 	}
 
+	@Override
+	public boolean checkFollow(String following_email, String followed_email) {
+		Follow result = followDao.checkFollow(following_email, followed_email);
+		if(result == null) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public Follow getFollowInfoByEmail(String following_email, String followed_email) {
+		return followDao.getFollowInfoByEmail(following_email, followed_email);
+	}
+
 }

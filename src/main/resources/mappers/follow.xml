@@ -83,6 +83,23 @@
 		where
 		follow_id = #{follow_id}
 	</delete>
+	
+	<!-- following이 followed를 팔로우했는지 여부 체크 -->
+	<select id="checkFollow" resultType="follow">
+		select *
+		from follows
+		where
+		following_email = #{following_email} and followed_email = #{followed_email}
+	</select>
+	
+	<!-- 사용자 이메일들로 팔로우 정보 얻기  -->
+	<select id="getFollowInfoByEmail" resultType="follow">
+		select *
+		from follows
+		where
+		following_email = #{following_email} and followed_email = #{followed_email}
+	</select>
+
 
 </mapper>
 

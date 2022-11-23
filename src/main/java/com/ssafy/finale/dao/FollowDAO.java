@@ -27,4 +27,8 @@ public interface FollowDAO {
 	
 	public int decreaseFollowing(String user_email); // 언팔로우한 사람 following_count 1빼기 해주기
 	
+	public Follow checkFollow(String following_email, String followed_email); // following이 followed를 팔로우했는지 여부 체크 
+	
+	public Follow getFollowInfoByEmail(String following_email, String followed_email); // 사용자 이메일들로 팔로우 정보 얻기 
+	
 }

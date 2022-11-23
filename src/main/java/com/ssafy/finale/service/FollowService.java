@@ -12,4 +12,8 @@ public interface FollowService {
 	public boolean writeFollow(Follow follow); // 팔로우 추가
 
 	public boolean deleteFollow(int follow_id); // 팔로우 해제
+	
+	public boolean checkFollow(String following_email, String followed_email); // following이 followed를 팔로우했는지 여부 체크
+	
+	public Follow getFollowInfoByEmail(String following_email, String followed_email); // follow 정보 찾기 
 }
