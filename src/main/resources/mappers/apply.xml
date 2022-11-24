@@ -2,68 +2,70 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.finale.dao.CommentDAO">
+<mapper namespace="com.ssafy.finale.dao.ApplyDAO">
 
-	<!-- 특정 모집 게시글의 댓글 전체 조회 -->
-	<select id="selectComment" resultType="Map">
-		SELECT comment_id, comment_content, created_at,
+	<!-- 특정 모집 게시글의 지원자 전체 조회 -->
+	<select id="selectApply" resultType="Map">
+		SELECT apply_id, apply_content, created_at,
 		recruit_id, user_id, email, nickname, profile_image
 		FROM
-		comments a
+		applys a
 		left join users b
 		on a.created_by = b.email
 		where recruit_id = #{recruit_id}
 		order by created_at
 		desc
-		limit #{page}, 12;
+	</select>
+
+	<!-- 특정 사용자가 특정 모집 게시글에 지원했는지 여부 조회 -->
+	<select id="selectApplyByUser" resultType="Map">
+		SELECT apply_id, apply_content, created_at,
+		recruit_id, user_id, email, nickname, profile_image
+		FROM
+		applys a
+		left join users b
+		on a.created_by = b.email
+		where recruit_id = #{recruit_id} and email = #{user_email}
 	</select>
 
 	<!-- id로 특정 댓글 조회 -->
-	<select id="selectCommentById" resultType="Comment">
+	<select id="selectApplyById" resultType="Apply">
 		SELECT *
-		from comments
-		where comment_id = #{comment_id}
+		from applys
+		where apply_id = #{apply_id}
 	</select>
 	
 	<!-- 댓글 등록 -->
-	<insert id="insertComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="comment_id">
+	<insert id="insertApply" parameterType="Apply" useGeneratedKeys="true" keyProperty="apply_id">
 		insert into
-		comments(
-		comment_content, created_by, recruit_id
+		applys(
+		apply_content, created_by, recruit_id
 		) values (
-		#{comment_content}, #{created_by}, #{recruit_id}
+		#{apply_content}, #{created_by}, #{recruit_id}
 		)
 	</insert>
 
-	<!-- 댓글 수정 -->
-	<update id="updateComment" parameterType="Comment">
-		update
-		comments
-		set comment_content = #{comment_content}
-		where comment_id = #{comment_id}
-	</update>
-
 	<!-- 댓글 삭제 -->
-	<delete id="deleteComment" parameterType="int">
+	<delete id="deleteApply" parameterType="int">
 		delete
 		from
-		comments
-		where comment_id = #{comment_id}
+		applys
+		where apply_id = #{apply_id}
 	</delete>
 
-	<!-- 댓글이 달린 모집 게시글의 comments_count 1더하기 해주기 -->
-	<update id="increaseCommentsCount" parameterType="int">
+	<!-- 댓글이 달린 모집 게시글의 applys_count 1더하기 해주기 -->
+	<update id="increaseApplysCount" parameterType="int">
 		update recruits
 		set
-		comments_count = comments_count+1
+		applys_count = applys_count+1
 		where recruit_id = #{recruit_id}
 	</update>
 
-	<!-- 댓글이 삭제된 모집 게시글의 comments_count 1빼기 해주기 -->
-	<update id="decreaseCommentsCount" parameterType="int">
+	<!-- 댓글이 삭제된 모집 게시글의 applys_count 1빼기 해주기 -->
+	<update id="decreaseApplysCount" parameterType="int">
 		update recruits
 		set
-		comments_count = comments_count-1
+		applys_count = applys_count-1
 		where recruit_id = #{recruit_id}
 	</update>
 

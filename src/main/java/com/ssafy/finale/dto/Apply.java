@@ -13,11 +13,11 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment {
+public class Apply {
 
-	private int comment_id;
+	private int apply_id;
 	private int recruit_id;
-	private String comment_content;
+	private String apply_content;
 	private String created_by;
 	private Date created_at;
 	
