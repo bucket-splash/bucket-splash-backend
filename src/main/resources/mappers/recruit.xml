@@ -5,9 +5,11 @@
 <mapper namespace="com.ssafy.finale.dao.RecruitDAO">
 
 	<!-- 게시글 전체 조회 -->
-	<select id="selectRecruit" resultType="Recruit">
+	<select id="selectRecruit" resultType="Map">
 		SELECT *
-		FROM recruits
+		FROM recruits a
+		left join category b
+		on a.category_id = b.category_id
 		order by created_at desc
 	</select>
 
@@ -20,18 +22,20 @@
 	</select>
 	
 	<!-- 게시글 상세 조회 -->
-	<select id="selectRecruitByNo" resultType="Recruit">
+	<select id="selectRecruitByNo" resultType="Map">
 		SELECT *
-		FROM recruits
+		FROM recruits a
+		left join category b
+		on a.category_id = b.category_id
 		where recruit_id = #{recruit_id}
 	</select>
 
 	<!-- 게시글 등록 -->
 	<insert id="insertRecruit" parameterType="Recruit" useGeneratedKeys="true" keyProperty="recruit_id">
 		insert into recruits(
-		category_id, recruit_title, recruit_content, people_num, start_date, end_date, created_by
+		category_id, recruit_title, recruit_content, people_num, start_date, end_date, created_by, deposit
 		) values (
-		#{category_id}, #{recruit_title}, #{recruit_content}, #{people_num}, #{start_date}, #{end_date}, #{created_by}
+		#{category_id}, #{recruit_title}, #{recruit_content}, #{people_num}, #{start_date}, #{end_date}, #{created_by}, #{deposit}
 		)
 	</insert>
 
@@ -52,6 +56,13 @@
 		from recruits
 		where recruit_id = #{recruit_id}
 	</delete>
+
+	<!-- 게시글 마감 여부 수정 -->
+	<update id="updateRecruitStatus" parameterType="int">
+		update recruits
+		set closed = 1
+		where recruit_id = #{recruit_id}
+	</update>
 
 </mapper>
 
