@@ -74,17 +74,19 @@ public class RecruitController {
 		return new ResponseEntity<Map>(map, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "유저가 작성한 모집 게시글의 정보를 반환한다.", response = Recruit.class)
+	@ApiOperation(value = "유저가 작성한 모집 게시글의 정보를 반환한다.", response = List.class)
 	@GetMapping("/user/{user_email}")
-	public ResponseEntity<Map> showRecruitByUser(@PathVariable String user_email) throws Exception {
+	public ResponseEntity<List<Map<String, Object>>> showRecruitByUser(@PathVariable String user_email) throws Exception {
 		logger.debug("showAllByUser - 호출");
-		Map<String, Object> map = new HashMap<>();
+		List<Map<String,Object>> list = new ArrayList<>();
 		List<Recruit> result = recruitService.showAllByUser(user_email);
 		for(Recruit r : result) {
+			Map<String, Object> map = new HashMap<>();
 			map.put("recruitInfo", r);
 			map.put("applyedInfo", applyService.showAll(r.getRecruit_id()));
+			list.add(map);
 		}
-		return new ResponseEntity<Map>(map, HttpStatus.OK);
+		return new ResponseEntity<List<Map<String, Object>>>(list, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "category_id, recruit_title, recruit_content, people_num, start_date, end_date, created_by 를 넣어주세요. 새로운 자유 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = Recruit.class)

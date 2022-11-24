@@ -129,7 +129,7 @@ public class UserController {
 		if (userService.insert(user)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "user_id, nickname, bio, profile_image를 넣어주세요. 사용자의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", notes = "bio, nickname, profile_image를 넣어주세요.", response = String.class)
