@@ -5,7 +5,7 @@
 <mapper namespace="com.ssafy.finale.dao.UserDao">
 
 	<!-- 사용자 정보를 저장한다. id는 repo클래스의 메소드 이름과 일치시킨다. -->
-	<insert id="insert" parameterType="User">
+	<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="user_id">
 		INSERT INTO users (email,
 		nickname, password, bio, profile_image)
 		VALUES(#{email},
@@ -13,19 +13,16 @@
 		#{password}, #{bio}, #{profile_image})
 	</insert>
 
-	<insert id="addTeamId" parameterType="int">
+	<insert id="addTeamListId" parameterType="int">
 		INSERT INTO team_lists
 		(teamlist_id)
 		VALUES (#{user_id})
 	</insert>
 
-	<update id="setTeamId" parameterType="int">
-		SET foreign_key_checks = 0
+	<update id="setTeamListId" parameterType="int">
 		UPDATE users
 		SET teamlist_id = #{user_id}
 		WHERE user_id = #{user_id}
-		SET
-		foreign_key_checks = 1
 	</update>
 
 	<select id="loginUser" parameterType="User" resultType="User">

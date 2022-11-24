@@ -1,11 +1,13 @@
 package com.ssafy.finale.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.finale.dao.TeamDAO;
+import com.ssafy.finale.dao.UserDao;
 import com.ssafy.finale.dto.Team;
 import com.ssafy.finale.dto.User;
 
@@ -14,9 +16,14 @@ public class TeamServiceImpl implements TeamService {
 
 	@Autowired
 	private TeamDAO teamDao;
+	
+	@Autowired
+	private UserDao userDao;
 
 	@Override
-	public boolean writeTeam(Team team) {
+	public boolean writeTeam(Team team, String user_email) throws SQLException {
+		User user = userDao.getUser(user_email);
+		team.setTeamlist_id(user.getTeamlist_id());
 		return teamDao.insertTeam(team) == 1;
 	}
 
@@ -31,17 +38,17 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public List<Object> showTeambyUser(int user_id) {
-		return teamDao.selectTeamByUser(user_id);
+	public List<Object> showTeambyUser(String user_email) {
+		return teamDao.selectTeamByUser(user_email);
 	}
 
 	@Override
-	public boolean connectUserAndTeam(int user_id, Team team) {
-		return teamDao.insertUserToTeam(user_id, team) == 1;
+	public List<Object> detailTeamUsersByName(String team_name) {
+		return teamDao.selectTeamUsersByName(team_name);
 	}
 
 	@Override
-	public List<Object> detailTeamById(String team_name) {
-		return teamDao.selectTeamBId(team_name);
+	public Team showTeamById(int team_id) {
+		return teamDao.selectTeamById(team_id);
 	}
 }

@@ -13,11 +13,11 @@
 		left join teams
 		c
 		on b.teamlist_id = c.teamlist_id
-		where a.teamlist_id = ${user_id};
+		where email = #{user_email};
 	</select>
 
 	<!-- 팀 상세 조회 : 그 팀의 회원 리스트 보여줌 -->
-	<select id="selectTeamBId" resultType="Map">
+	<select id="selectTeamUsersByName" resultType="Map">
 		select *
 		from users a
 		left
@@ -26,28 +26,17 @@
 		left join teams c
 		on
 		b.teamlist_id = c.teamlist_id
-		where c.team_name = "${team_name}";
+		where c.team_name = #{team_name};
 	</select>
 
-	<!-- 특정 유저의 팀 리스트에 특정 팀 추가 -->
-	<insert id="insertUserToTeam" parameterType="int">
-		insert into teams(
-		teamlist_id, team_name, team_image)
-		values ((select teamlist_id
-		from users
-		where user_id=${user_id}), "${team.team_name}",
-		"${team.team_image}"
-		);
-	</insert>
-
 	<!-- 팀 자체를 추가 -->
-	<!-- <insert id="insertTeam" parameterType="team">
+	<insert id="insertTeam" parameterType="team" useGeneratedKeys="true" keyProperty="team_id">
 		insert into teams(
-		team_name, team_image
+		team_name, team_content, teamlist_id
 		) values (
-		#{team_name}, #{team_image}
+		#{team_name}, #{team_content}, #{teamlist_id} 
 		)
-	</insert> -->
+	</insert>
 
 	<!-- 팀 정보 수정 -->
 	<update id="updateTeam" parameterType="team">

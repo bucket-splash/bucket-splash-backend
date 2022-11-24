@@ -8,8 +8,8 @@ import com.ssafy.finale.dto.User;
 public interface UserDao {
 	
 	int insert(User user);
-	Boolean addTeamId(int user_id) throws SQLException;
-	Boolean setTeamId(int user_id) throws SQLException;
+	Boolean addTeamListId(int user_id) throws SQLException;
+	Boolean setTeamListId(int user_id) throws SQLException;
 	User loginUser(User user) throws SQLException;
 	User getUser(String email) throws SQLException;
 	Boolean updateUser(User user) throws SQLException;

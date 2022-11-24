@@ -1,6 +1,5 @@
 package com.ssafy.finale.service;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,9 +12,6 @@ import com.ssafy.finale.dto.User;
 
 @Service
 public class UserServiceImpl implements UserService {
-
-	@Autowired
-	private SqlSession sqlSession;
 
 	private UserDao userDao;
 
@@ -30,12 +26,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Boolean insert(User user) throws Exception {
-//		userDao.insert(user);
-//		User tmpUser = userDao.getUser(user.getEmail());
-//		userDao.addTeamId(tmpUser.getUser_id());
-//
-//		return userDao.setTeamId(tmpUser.getUser_id());
-		return userDao.insert(user) == 1;
+		userDao.insert(user);
+		userDao.addTeamListId(user.getUser_id());
+		return userDao.setTeamListId(user.getUser_id());
 	}
 
 	@Override
