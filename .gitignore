@@ -39,3 +39,5 @@ build/
 ### application.properties ###
 
 .DS_Store
+DigiCertGlobalRootCA.crt.pem
+application.properties
